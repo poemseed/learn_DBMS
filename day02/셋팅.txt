@@ -1,0 +1,45 @@
+1. Oracle 11g R2 다운로드 하기
+
+윈도우X64 다운로드 클릭 -> 체크박스 클릭해서 다운로드 -> 오라클 로그인 -> util 파일에 설치 -> setup.exe 더블클릭 -> next 클릭 -> 비밀번호 1234
+-> next -> install -> finsh
+
+다운로드 : https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
+
+**Oracle 설치 확인하기
+windowKey + R +cmd -> sqlplus -> user-name에 system 입력-> password에 1234 입력 (눈에 안보임) -> exit
+	- id / pw : system / 1234 (설치시 세팅)
+
+**작업관리자에서 오라클서비스xe와 오라클xetns리스너가 실행되어야 오라클이 실행됌
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+dbeaver툴 다운로드하기
+
+다운로드 : https://dbeaver.io/download/
+
+dbeaver 구글에 검색 -> 다운로드 -> windows (zip) 클릭 -> util폴더에 다운받은 zip 파일 옮기기 -> zip파일 풀기 -> dbeaver.exe 클릭 -> 뜨는 창 다 닫기
+
+디비버와 오라클 커넥션하기
+Dabtabase Navigattor에 새커넥션 연결클릭 -> ALL -> Oracle클릭 -> 다음클릭 -> Database를 XE로 바꾸기 -> username에 system -> password에 1234
+->  test connection 클릭 -> download해주기 -> undefinde Error가 뜬다
+-> 왼쪽에 edit driver settings클릭 -> libraries탭클릭 -> add File클릭 -> C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib 경로로 가서 
+ojdbc6.jar열기 -> 확인클릭 -> test connection 다시 확인 -> 완료클릭 -> 초록체크가 들어오면 잘 된것
+
+** 오라클은 계정이 한글로 되어있으면 에러가 난다.
+windowKey + R + netplwiz -> 본인계정 클릭 후 속성클릭(본인계정 이름은 cmd창에서 확인가능) -> 영어로 변경하고 확인 -> 재부팅
+windowKey + R + netplwiz로 본인계정이름 바뀐거 확인하기
+
+** system은 최고 아이디라서 모든 오라클시스템을 만질 수 있어서 위험하다. 공부할때는 공부하는 영역에서 조작을 해주기 위해 HR계정으로 들어감
+그래서 HR계정을 풀어야함
+
+HR계정 풀기
+windowKey + R + cmd -> sqlplus -> user-name : system / password : 1234 -> alter user hr identified by hr account unlock; 입력 -> User altered 메시지
+확인 -> alter user hr identified by 1234; 입력 -> User altered 메시지 확인 -> grant connect, resource to hr; 입력	->  Grant succeeded 메시지 확인
+
+HR계정 만들기
+일단 디비버로 가서 이전에 커넥션 했던 localhost에 오른쪽 마우스해서 edit connetion 하면 내가 접속하기 위한 정보를 확인할 수 있다.
+localhost 누르고 f2버튼으로 이름을 system으로 바꾸면 이름만으로 내가 system아이디로 들어왔구나를 확인할 수 있게 만들 수 있다.
+그런 다음에 
+Dabtabase Navigattor에 새커넥션 연결클릭 -> ALL -> Oracle클릭 -> 다음클릭 -> Database를 XE로 바꾸기 -> username에 hr -> password에 1234
+-> 왼쪽에 edit driver settings클릭 -> libraries탭클릭 -> ojdbc6.jar파일 있는지 확인하고 없다면 add File클릭
+-> C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib 경로로 가서 ojdbc6.jar열기 -> 확인클릭 -> test connection 확인 -> 완료클릭
+-> HR계정 글씨가 굵게 되어 있는지 확인하기 -> localhost를 f2번 눌러서 이름 HR로 바꿔주기
